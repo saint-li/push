@@ -5,7 +5,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url 'https://jitpack.io' }
+//        maven { url 'https://jitpack.io' }
         maven {url 'http://developer.huawei.com/repo/'}
     }
     dependencies {
@@ -15,6 +15,8 @@ buildscript {
         // in the individual module build.gradle files
         //华为push配置
         classpath 'com.huawei.agconnect:agcp:1.2.1.301'
+        //lib库发布到Jitpack.io配置
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
 

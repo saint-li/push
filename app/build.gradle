@@ -87,4 +87,5 @@ dependencies {
 //    implementation(name: 'pushlib-release', ext: 'aar')
     //推送依赖
     implementation project(path: ':pushlib')
+//    implementation 'com.github.saint-li:push:1.0.0'
 }
