@@ -1,0 +1,90 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+//华为推送
+apply plugin: 'com.huawei.agconnect'
+
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
+    defaultConfig {
+        applicationId "com.cdpf.parent"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+//        multiDexEnabled true
+
+        ndk {
+            //选择要添加的对应 cpu 类型的 .so 库。
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'
+            // 还可以添加 'x86', 'armeabi', 'mips', 'mips64'
+        }
+        //推送配置
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "jpushkey", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL: "develop-default", //暂时填写默认值即可.
+                MIPUSH_APPID : "miappid",//小米推送appId ****纯数字请务必在数值中间添加一个空格，否则会发生数值变化
+                MIPUSH_APPKEY: "miappkey",//小米推送appKey****纯数字请务必在数值中间添加一个空格，否则会发生数值变化
+                OPPO_APPID   : "oppoappid",//oppo推送AppId配置
+                OPPO_APPKEY  : "oppoappkey",//oppo推送Appkey配置
+                OPPO_SECRET  : "opposecret",//oppo推送AppSecret配置
+        ]
+    }
+
+    signingConfigs {
+        debug {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile file('debug.keystore')
+            storePassword 'android'
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs', AAR_LIB_PATH
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+//    implementation 'com.github.saint-li:util:1.2.11'
+    //网络
+    implementation 'com.lzy.net:okgo:3.0.4'
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+//    implementation(name: 'pushlib-release', ext: 'aar')
+    //推送依赖
+    implementation project(path: ':pushlib')
+}

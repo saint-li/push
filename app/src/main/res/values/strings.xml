@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Push_Lib</string>
+    <string name="type_tips">推送类型提示：\n0:极光推送\n1:华为\n2:小米\n3:OPPO</string>
+</resources>

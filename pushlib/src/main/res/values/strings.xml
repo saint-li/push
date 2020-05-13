@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">PushLib</string>
+    <string name="init_succeed">初始化推送成功</string>
+    <string name="init_failed">初始化推送失败</string>
+    <string name="get_token">获取Token</string>
+    <string name="tip_setalias">设置别名成功</string>
+    <string name="tip_setalias_failed">设置别名失败</string>
+    <string name="tip_off_push_succeed">取消推送成功</string>
+    <string name="tip_off_push_failed">取消推送失败</string>
+</resources>

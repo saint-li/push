@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.saint.push_lib">
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <activity android:name=".Main2Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 推送消息接收器  开始     -->
+
+
+        <!-- 小米推送配置 -->
+        <meta-data
+            android:name="MIPUSH_APPKEY"
+            android:value="${MIPUSH_APPKEY}" />
+
+        <meta-data
+            android:name="MIPUSH_APPID"
+            android:value="${MIPUSH_APPID}" />
+
+        <!-- OPPO推送配置 -->
+        <meta-data
+            android:name="OPPO_APPKEY"
+            android:value="${OPPO_APPKEY}" />
+
+        <meta-data
+            android:name="OPPO_SECRET"
+            android:value="${OPPO_SECRET}" />
+        <meta-data
+            android:name="OPPO_APPID"
+            android:value="${OPPO_APPID}" />
+
+        <receiver android:name=".MyPushReceiver">
+            <intent-filter>
+                <action android:name="com.saint.pushlib.ACTION_RECEIVE_NOTIFICATION" />
+                <action android:name="com.saint.pushlib.ACTION_RECEIVE_NOTIFICATION_CLICK" />
+                <action android:name="com.saint.pushlib.ACTION_RECEIVE_MESSAGE" />
+                <action android:name="com.saint.pushlib.ACTION_RECEIVE_TOKEN_SET" />
+                <action android:name="com.saint.pushlib.ACTION_RECEIVE_INIT_RESULT" />
+                <action android:name="com.saint.pushlib.ACTION_RECEIVE_LOGIN_OUT" />
+                <action android:name="com.saint.pushlib.ACTION_RECEIVE_SET_ALIAS" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </receiver>
+        <!-- 推送消息接收器  结束     -->
+    </application>
+
+</manifest>
