@@ -39,10 +39,6 @@ public class MyPushReceiver extends BasePushReceiver {
     @Override
     public void onTokenSet(Context context, ReceiverInfo info) {
         Log.e(TAG, "onTokenSet：" + info.toString());
-        Intent intent = new Intent(BroadcastUtil.ACTION_TOKEN);
-        intent.putExtra("token", info.toString());
-        intent.setPackage(context.getPackageName());
-        BroadcastUtil.instance().sendBroadCast(context, intent);
     }
 
     @Override

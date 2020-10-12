@@ -25,7 +25,7 @@ object PushReceiverManager {
     }
 
     /**
-     * 获取到token或registerId后
+     * 获取到华为token后
      */
     fun setToken(context: Context, info: ReceiverInfo) {
         i("setToken=$info")

@@ -4,7 +4,6 @@
     package="com.saint.push_lib">
 
     <application
-        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,29 +21,6 @@
         </activity>
 
         <!-- 推送消息接收器  开始     -->
-
-
-        <!-- 小米推送配置 -->
-        <meta-data
-            android:name="MIPUSH_APPKEY"
-            android:value="${MIPUSH_APPKEY}" />
-
-        <meta-data
-            android:name="MIPUSH_APPID"
-            android:value="${MIPUSH_APPID}" />
-
-        <!-- OPPO推送配置 -->
-        <meta-data
-            android:name="OPPO_APPKEY"
-            android:value="${OPPO_APPKEY}" />
-
-        <meta-data
-            android:name="OPPO_SECRET"
-            android:value="${OPPO_SECRET}" />
-        <meta-data
-            android:name="OPPO_APPID"
-            android:value="${OPPO_APPID}" />
-
         <receiver android:name=".MyPushReceiver">
             <intent-filter>
                 <action android:name="com.saint.pushlib.ACTION_RECEIVE_NOTIFICATION" />

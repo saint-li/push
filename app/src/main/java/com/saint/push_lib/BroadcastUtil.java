@@ -8,7 +8,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class BroadcastUtil {
     public static final String ACTION_INIT = "action_init";
-    public static final String ACTION_TOKEN = "action_token";
     private static BroadcastUtil instance;
 
     public static BroadcastUtil instance() {

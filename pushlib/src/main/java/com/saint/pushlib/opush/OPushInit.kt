@@ -5,12 +5,15 @@ import android.content.Context
 import android.text.TextUtils
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
-import com.heytap.msp.push.HeytapPushManager
-import com.heytap.msp.push.callback.ICallBackResultService
+import com.heytap.mcssdk.PushManager
+import com.heytap.mcssdk.callback.PushAdapter
+import com.heytap.mcssdk.callback.PushCallback
+import com.heytap.mcssdk.mode.SubscribeResult
 import com.saint.pushlib.BasePushInit
 import com.saint.pushlib.PushConstant
-import com.saint.pushlib.PushManager.init
-import com.saint.pushlib.PushManager.setEnableOPPOPush
+import com.saint.pushlib.PushConstant.OPPO
+import com.saint.pushlib.PushControl.init
+import com.saint.pushlib.PushControl.setEnableOPPOPush
 import com.saint.pushlib.R
 import com.saint.pushlib.bean.ReceiverInfo
 import com.saint.pushlib.receiver.PushReceiverManager
@@ -19,77 +22,52 @@ import com.saint.pushlib.util.PushLog.Companion.i
 import com.saint.pushlib.util.PushUtil.getMetaData
 
 class OPushInit(isDebug: Boolean, application: Application) : BasePushInit(isDebug, application) {
+    private var getToken = false
     override fun loginIn() {
-        val info = ReceiverInfo()
-        info.title = mContext.getString(R.string.get_token)
-        info.content = HeytapPushManager.getRegisterID()
-        info.pushType = PushConstant.XIAOMI
-        PushReceiverManager.setToken(mContext, info)
+        var registerID = PushManager.getInstance().registerID
+        if (!TextUtils.isEmpty(registerID)) {
+            onToken(registerID, OPPO)
+        } else {
+            getToken = true
+            PushManager.getInstance().getRegister()
+        }
     }
 
     /**
      * 推送初始化
+     *
+     * @param isDebug     设置debug模式
+     * @param application --
      */
     init {
-        val appKey = getMetaData(application, "OPPO_APPKEY")
         val appSecret = getMetaData(application, "OPPO_SECRET")
+        val appKey = getMetaData(application, "OPPO_APPKEY")
         i("appSecret:$appSecret appKey:$appKey")
-
-        HeytapPushManager.init(application, isDebug)
-
-        if (HeytapPushManager.isSupportPush()
-            && !TextUtils.isEmpty(appKey)
-            && !TextUtils.isEmpty(appSecret)
-        ) {
-            try {
-//                HeytapPushManager.init(application, isDebug)
-                //setPushCallback接口也可设置callback
-                HeytapPushManager.register(application, appKey, appSecret, PushCallBack())
-                HeytapPushManager.requestNotificationPermission()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                failed(isDebug, application)
-            }
+        if (!TextUtils.isEmpty(appKey) && !TextUtils.isEmpty(appSecret)) {
+            PushManager.getInstance().register(application, appKey, appSecret, OPushAdapter())
         } else {
-            failed(isDebug, application)
+            initFailed(
+                getString(R.string.OPPO),
+                PushConstant.OPPO,
+                "OPPO_APPKEY=$appKey,appSecret=$appSecret"
+            )
         }
     }
 
-    private fun succeed(context: Context) {
-        val info = ReceiverInfo()
-        info.pushType = PushConstant.OPPO
-        info.title = "OPPO推送"
-        info.content = mContext.getString(R.string.init_succeed)
-        PushReceiverManager.onRegistration(context, info)
-    }
+    inner class OPushAdapter : PushAdapter() {
 
-    private fun failed(isDebug: Boolean, application: Application) {
-        val info = ReceiverInfo()
-        info.pushType = PushConstant.OPPO
-        info.title = "OPPO推送"
-        info.content = mContext.getString(R.string.init_failed)
-        setEnableOPPOPush(false)
-        init(isDebug, application)
-    }
-
-    override fun pushStatus() {
-        super.pushStatus()
-        showResult("推送", "当前：${HeytapPushManager.isSupportPush()}")
-        HeytapPushManager.getPushStatus()
-    }
-
-
-    /************************************************************************************
-     * ***************************callbacks from mcs************************************
-     */
-    inner class PushCallBack : ICallBackResultService {
         override fun onRegister(code: Int, s: String) {
             if (code == 0) {
-                succeed(mContext)
-                showResult("注册成功", "registerId:$s")
+                if (getToken) {
+                    showResult("获取RegisterId成功", "registerId:$s")
+                    onToken(s, OPPO)
+                } else {
+                    showResult("注册成功", "registerId:$s")
+                    initSucceed(getString(R.string.OPPO), PushConstant.OPPO)
+                }
             } else {
-                failed(isDebug, mContext)
                 showResult("注册失败", "code=$code,msg=$s")
+                initFailed(getString(R.string.OPPO), PushConstant.OPPO, "code=$code,msg=$s")
             }
         }
 
@@ -120,12 +98,14 @@ class OPushInit(isDebug: Boolean, application: Application) : BasePushInit(isDeb
         override fun onSetPushTime(code: Int, s: String) {
             showResult("SetPushTime", "code=$code,result:$s")
         }
+
     }
 
     /**
      * 此方法会将结果进行回显
      */
     private fun showResult(@Nullable tag: String, @NonNull msg: String) {
-        PushLog.d("$tag:$msg")
+        i("$tag:$msg")
     }
+
 }

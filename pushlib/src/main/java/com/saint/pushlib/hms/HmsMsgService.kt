@@ -4,6 +4,7 @@ import android.text.TextUtils
 import com.huawei.hms.push.HmsMessageService
 import com.huawei.hms.push.RemoteMessage
 import com.saint.pushlib.PushConstant
+import com.saint.pushlib.PushControl
 import com.saint.pushlib.R
 import com.saint.pushlib.bean.ReceiverInfo
 import com.saint.pushlib.receiver.PushReceiverManager

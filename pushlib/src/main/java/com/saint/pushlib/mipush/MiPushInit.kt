@@ -4,8 +4,9 @@ import android.app.Application
 import android.text.TextUtils
 import com.saint.pushlib.BasePushInit
 import com.saint.pushlib.PushConstant
-import com.saint.pushlib.PushManager.init
-import com.saint.pushlib.PushManager.setEnableMiPush
+import com.saint.pushlib.PushConstant.XIAOMI
+import com.saint.pushlib.PushControl.init
+import com.saint.pushlib.PushControl.setEnableMiPush
 import com.saint.pushlib.R
 import com.saint.pushlib.bean.ReceiverInfo
 import com.saint.pushlib.receiver.PushReceiverManager
@@ -19,11 +20,7 @@ import com.xiaomi.mipush.sdk.MiPushClient
 
 class MiPushInit(isDebug: Boolean, application: Application) : BasePushInit(isDebug, application) {
     override fun loginIn() {
-        val info = ReceiverInfo()
-        info.title = mContext.getString(R.string.get_token)
-        info.content = MiPushClient.getRegId(mContext)
-        info.pushType = PushConstant.XIAOMI
-        PushReceiverManager.setToken(mContext, info)
+        onToken(MiPushClient.getRegId(mContext), XIAOMI)
     }
 
     override fun setAlias(alias: String?) {
@@ -36,7 +33,7 @@ class MiPushInit(isDebug: Boolean, application: Application) : BasePushInit(isDe
         aliasInfo.title = mContext.getString(R.string.tip_off_push_succeed)
         if (mAlias != null)
             aliasInfo.content = mAlias!!
-        aliasInfo.pushType = PushConstant.XIAOMI
+        aliasInfo.pushType = XIAOMI
         PushReceiverManager.onLoginOut(mContext, aliasInfo)
     }
 
@@ -50,15 +47,8 @@ class MiPushInit(isDebug: Boolean, application: Application) : BasePushInit(isDe
         //注册SDK
         val appId = getMetaData(application, "MIPUSH_APPID")
         val appKey = getMetaData(application, "MIPUSH_APPKEY")
-        i("appId:$appId appKey:$appKey")
         if (TextUtils.isEmpty(appId) || TextUtils.isEmpty(appKey)) {
-            val info = ReceiverInfo()
-            info.pushType = PushConstant.XIAOMI
-            info.title = "小米推送"
-            info.content = mContext.getString(R.string.init_failed)
-            PushReceiverManager.onRegistration(application, info)
-            setEnableMiPush(false)
-            init(isDebug, application)
+            initFailed(getString(R.string.XIAOMI), XIAOMI, "appId:$appId appKey:$appKey")
         } else {
             MiPushClient.registerPush(
                 application,

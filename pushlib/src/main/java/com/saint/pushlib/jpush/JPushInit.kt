@@ -4,17 +4,15 @@ import android.app.Application
 import cn.jpush.android.api.JPushInterface
 import com.saint.pushlib.BasePushInit
 import com.saint.pushlib.PushConstant
+import com.saint.pushlib.PushConstant.JPUSH
+import com.saint.pushlib.PushControl.app
 import com.saint.pushlib.R
 import com.saint.pushlib.bean.ReceiverInfo
 import com.saint.pushlib.receiver.PushReceiverManager
 
 class JPushInit(isDebug: Boolean, application: Application) : BasePushInit(isDebug, application) {
     override fun loginIn() {
-        val info = ReceiverInfo()
-        info.title = mContext.getString(R.string.get_token)
-        info.content = JPushInterface.getRegistrationID(mContext)
-        info.pushType = PushConstant.JPUSH
-        PushReceiverManager.setToken(mContext, info)
+        onToken(JPushInterface.getRegistrationID(mContext), JPUSH)
     }
 
     override fun setAlias(alias: String?) {
@@ -40,10 +38,6 @@ class JPushInit(isDebug: Boolean, application: Application) : BasePushInit(isDeb
     init {
         JPushInterface.setDebugMode(isDebug)
         JPushInterface.init(application)
-        val info = ReceiverInfo()
-        info.pushType = PushConstant.JPUSH
-        info.title = "极光推送"
-        info.content = mContext.getString(R.string.init_succeed)
-        PushReceiverManager.onRegistration(application, info)
+        initSucceed(getString(R.string.JPUSH), JPUSH)
     }
 }

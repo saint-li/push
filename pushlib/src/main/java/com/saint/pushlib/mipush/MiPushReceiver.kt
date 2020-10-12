@@ -50,15 +50,14 @@ class MiPushReceiver : PushMessageReceiver() {
 
     override fun onReceiveRegisterResult(context: Context, message: MiPushCommandMessage) {
         val command = message.command
-        val log: String
         if (MiPushClient.COMMAND_REGISTER == command) {
-            log = if (message.resultCode == ErrorCode.SUCCESS.toLong()) {
+            val log = if (message.resultCode == ErrorCode.SUCCESS.toLong()) {
                 context.getString(R.string.init_succeed)
             } else {
                 context.getString(R.string.init_failed)
             }
             val info = convert2ReceiverInfo(message)
-            info.title = "小米推送"
+            info.title = context.getString(R.string.XIAOMI)
             info.content = log
             PushReceiverManager.onRegistration(context, info)
         }

@@ -4,14 +4,9 @@ apply plugin: 'kotlin-android-extensions'
 //华为推送配置--需要在应用build.gradle 内添加才生效
 //apply plugin: 'com.huawei.agconnect'
 
-// library库配置
-apply plugin: 'com.github.dcendents.android-maven'
-
-group='com.github.saint-li'
-
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
 
 
     defaultConfig {
@@ -29,31 +24,21 @@ android {
             // 还可以添加 'x86', 'armeabi', 'mips', 'mips64'
         }
 
-        manifestPlaceholders = [
-                JPUSH_PKGNAME: "",//JPush 上注册的包名
-                JPUSH_APPKEY : "",//JPush 上注册的包名对应的 Appkey.
-                JPUSH_CHANNEL: "", //暂时填写默认值即可.
+//        manifestPlaceholders = [
+//                JPUSH_PKGNAME: "",//JPush 上注册的包名
+//                JPUSH_APPKEY : "",//JPush 上注册的包名对应的 Appkey.
+//                JPUSH_CHANNEL: "", //暂时填写默认值即可.
 //                MIPUSH_APPID : "",//小米推送appId ****纯数字请务必在数值中间添加一个空格，否则会发生数值变化
 //                MIPUSH_APPKEY: "",//小米推送appKey****纯数字请务必在数值中间添加一个空格，否则会发生数值变化
 //                OPPO_APPKEY  : "",//oppo推送Appkey配置
 //                OPPO_SECRET  : "",//oppo推送AppSecret配置
-        ]
+//        ]
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-    }
-
-    repositories {
-        flatDir {
-            dirs 'libs', AAR_LIB_PATH
         }
     }
 
@@ -68,13 +53,15 @@ dependencies {
     implementation "androidx.core:core-ktx:1.2.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //华为推送
-    implementation 'com.huawei.hms:push:4.0.3.301'
+    implementation 'com.huawei.hms:push:5.0.0.300'
     //极光推送
     implementation 'cn.jiguang.sdk:jpush:3.6.0'
     implementation 'cn.jiguang.sdk:jcore:2.3.4'
     //小米推送
-    implementation files('libs/MiPush_SDK_Client_3_7_0.jar')
+    implementation files('libs/MiPush_SDK_Client_3_8_0.jar')
     //OPPO推送
-    implementation(name: 'com.heytap.msp', ext: 'aar')
-//    implementation project(path: ':aarlib')
+    implementation files('libs/mcssdk-2.0.2.jar')
+}
+repositories {
+    mavenCentral()
 }

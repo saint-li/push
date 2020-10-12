@@ -7,4 +7,8 @@
     <string name="tip_setalias_failed">设置别名失败</string>
     <string name="tip_off_push_succeed">取消推送成功</string>
     <string name="tip_off_push_failed">取消推送失败</string>
+    <string name="JPUSH">极光推送</string>
+    <string name="HUAWEI">华为推送</string>
+    <string name="XIAOMI">小米推送</string>
+    <string name="OPPO">OPPO推送</string>
 </resources>

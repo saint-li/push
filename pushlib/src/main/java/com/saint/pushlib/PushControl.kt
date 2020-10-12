@@ -2,7 +2,7 @@ package com.saint.pushlib
 
 import android.app.Application
 import android.content.Context
-import com.heytap.msp.push.HeytapPushManager
+import com.heytap.mcssdk.PushManager
 import com.saint.pushlib.PushConstant.HUAWEI
 import com.saint.pushlib.PushConstant.JPUSH
 import com.saint.pushlib.PushConstant.OPPO
@@ -15,7 +15,7 @@ import com.saint.pushlib.util.PushLog
 import com.saint.pushlib.util.PushUtil.isMainProcess
 import com.saint.pushlib.util.RomUtil
 
-object PushManager {
+object PushControl {
     /**
      * 当前的推送平台，默认为极光 JPUSH
      */
@@ -62,16 +62,12 @@ object PushManager {
         init(isDebug, app)
     }
 
-    private fun getPhoneType(context: Context): Int {
-        context.packageManager
+    private fun getPhoneType(context: Context?): Int {
         val phoneType: Int = if (RomUtil.isHuaweiRom() && enableHWPush) {
             HUAWEI
         } else if (RomUtil.isMiuiRom() && enableMiPush) {
             XIAOMI
-        } else if (RomUtil.isOPPORom()
-//            && HeytapPushManager.isSupportPush()//新版检测只有初始化之后才能调用
-            && enableOPPOPush
-        ) {
+        } else if (RomUtil.isOPPORom() && PushManager.isSupportPush(context) && enableOPPOPush) {
             OPPO
         } else {
             JPUSH
@@ -87,14 +83,11 @@ object PushManager {
 
     /**
      * 登录，华为登录需要在activity中
-     *  延迟执行，因小米出现初始化后就获取registerid出现为空的情况
+     *
      * @param activity
      */
     fun loginIn() {
-        Thread(Runnable {
-            Thread.sleep(500)
-            mPushTarget!!.loginIn()
-        }).start()
+        mPushTarget!!.loginIn()
     }
 
     /**
@@ -102,10 +95,6 @@ object PushManager {
      */
     fun loginOut() {
         mPushTarget!!.loginOut()
-    }
-
-    fun pushStatus() {
-        mPushTarget!!.pushStatus()
     }
 
     fun setEnableHWPush(enableHWPush: Boolean) {
@@ -118,6 +107,14 @@ object PushManager {
 
     fun setEnableOPPOPush(enableOPPOPush: Boolean) {
         this.enableOPPOPush = enableOPPOPush
+    }
+
+    fun setEnablePush(type: Int) {
+        when (type) {
+            HUAWEI -> setEnableHWPush(false)
+            XIAOMI -> setEnableMiPush(false)
+            OPPO -> setEnableOPPOPush(false)
+        }
     }
 
     fun setAlias(alias: String?) {

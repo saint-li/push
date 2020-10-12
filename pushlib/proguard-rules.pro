@@ -20,7 +20,5 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-
 #OPPO推送混淆配置
-#-keep public class * extends android.app.Service
-#-keep class com.heytap.msp.** { *;}
+-keep public class * extends android.app.Service

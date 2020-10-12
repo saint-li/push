@@ -16,29 +16,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_splash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#F7F7F7"
-        android:onClick="goSplash"
-        android:padding="10dp"
-        android:text="Splash"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_type_tips" />
-
-    <TextView
-        android:id="@+id/tv_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#F7F7F7"
-        android:onClick="goMain"
-        android:padding="10dp"
-        android:text="Main"
-        app:layout_constraintStart_toEndOf="@id/tv_splash"
-        app:layout_constraintTop_toBottomOf="@id/tv_type_tips" />
-
-
-    <TextView
         android:id="@+id/tv_type_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,24 +23,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btn_push_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="pushStatus"
-        android:text="推送状态"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btn_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="getId"
-        android:text="注册"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btn_push_status" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

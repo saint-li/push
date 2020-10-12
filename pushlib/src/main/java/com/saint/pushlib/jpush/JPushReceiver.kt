@@ -6,6 +6,7 @@ import cn.jpush.android.api.JPushMessage
 import cn.jpush.android.api.NotificationMessage
 import cn.jpush.android.service.JPushMessageReceiver
 import com.saint.pushlib.PushConstant
+import com.saint.pushlib.PushControl.app
 import com.saint.pushlib.bean.ReceiverInfo
 import com.saint.pushlib.receiver.PushReceiverManager
 import com.saint.pushlib.util.PushLog.Companion.i
